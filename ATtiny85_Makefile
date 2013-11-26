@@ -32,5 +32,10 @@ clean:
 asm: all
 	avr-objdump -h -S main.elf > main.lss
 	
+raw:
+	avr-gcc -g -mmcu=$(MCU) -Wa,-adhlms=main.lst -Wl,-Map,main.map -o main.elf $(FILES) -lm
+	avr-objcopy -O ihex main.elf main.hex
+	avr-size main.elf
+	avr-objdump -h -S main.elf > main.lss
 # fuses:
 # 	avrdude -v -c $(ISP) -p $(P_MCU) -P usb -U hfuse:w:0xD7:m -U lfuse:w:0xE7:m
